@@ -1,0 +1,247 @@
+﻿@using SysProAssess.BLL.UserLogic
+@using SysProAssess.MODELS
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    UserLogic _Userlogic = new UserLogic();
+    List<User> _userlist = _Userlogic.GetAllUsers().Result;
+    Guid DeletedStatusID = Guid.Parse("6c1c6d85-7413-4d8e-94a8-84a794b758c7");
+}
+
+
+
+
+<div class="container mt-3">
+    <!-- Nav pills -->
+    <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#usertab" onclick="listUsers()">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#roletab" onclick="listRoles()">Roles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#tasktab" onclick="listTasks()">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#taskcapturetab" onclick="listTasksCapture()">Task Capture</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="usertab" class="container tab-pane active">
+            <br>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-dark text-white">
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Birth Date</td>
+                        <td>ID Number</td>
+                        <td>Role</td>
+                        <td class="text-end"><button onclick="addNewUser()" class="btn btn-outline-light"><i class="fa fa-plus"></i></button></td>
+                    </tr>
+                </thead>
+                <tbody id="usertablist">
+                    @foreach(var itm in _userlist)
+                    {
+                        var bgClass = "bg-light";
+                        @if (itm.StatusId == DeletedStatusID) { bgClass = "bg-danger text-white"; }
+                        <tr id='userrow-@itm.Id' class='trUsers @bgClass text-dark'>
+                        <td>@itm.FirstName</td>
+                        <td>@itm.LastName</td>
+                        <td>@itm.DateOfBirth</td>
+                        <td>@itm.IDNumber</td>
+                        <td>&nbsp;</td>
+                        @if (itm.StatusId != DeletedStatusID) {
+                            <td class='text-center'><button type='button' class='btn btn-sm btn-primary' onclick="setselectedUser('@itm.Id')"> <i class='fa fa-wrench'></i></button></td>
+                        }else {
+                            <td class='text-center'><button type='button' class='btn btn-sm btn-light'><i class='fa fa-ban'></i></button></td>
+                        }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="mt-2 p-3" id="editUserForm" style="display:none;">
+                <div class="row mt-2">
+                    <div class="col-sm-3">First Name</div>
+                    <div class="col-sm-3"><input class="form-control" type="text" id="frmu-firstName" /></div>
+                    <div class="col-sm-3">Last Name</div>
+                    <div class="col-sm-3"><input class="form-control" type="text" id="frmu-lastName" /></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-3">Date Of Birth</div>
+                    <div class="col-sm-3"><input class="form-control" type="date" id="frmu-dateOfBirth" /></div>
+                    <div class="col-sm-3">ID Number</div>
+                    <div class="col-sm-3"><input class="form-control" type="text" id="frmu-idNumber" /></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-3">Role</div>
+                    <div class="col-sm-3">
+                        <select id="frmu-roleID" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-sm-6 text-end">
+                        <button class="btn btn-danger" type="button" onclick="upateSelectedUser(100)">Dismiss</button>
+                        <button class="btn btn-primary" type="button" onclick="cancelUserEdit()">Cancel</button>
+                        <button class="btn btn-success" type="button" onclick="upateSelectedUser(1)">Save</button>
+                    </div>
+                </div>
+                <div class="row mt-2" style="display:none">
+                    <div class="col-sm-3">Status</div>
+                    <div class="col-sm-3"><input class="form-control" type="text" id="frmu-statusId" /></div>
+                </div>
+            </div>
+        </div>
+        <div id="roletab" class="container tab-pane fade">
+            <br>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-dark text-white">
+                        <td>Role</td>
+                        <td>Hourly Rate</td>
+                        <td class="text-end"><button onclick="addNewRole()" class="btn btn-outline-light"><i class="fa fa-plus"></i></button></td>
+                    </tr>
+                </thead>
+                <tbody id="roletablist">
+                </tbody>
+            </table>
+            <div class="mt-2 p-3" id="editRoleForm" style="display:none;">
+                <div class="row mt-2">
+                    <div class="col-sm-3">Role Name</div>
+                    <div class="col-sm-3"><input class="form-control" type="text" id="frmu-roleName" /></div>
+                    <div class="col-sm-3">Role Rate / hour</div>
+                    <div class="col-sm-3"><input class="form-control" type="number" id="frmu-roleRate" /></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-12 text-end">
+                        @*<button class="btn btn-danger" type="button" onclick="upateSelectedRole(100)">Dismiss</button>*@
+                        <button class="btn btn-primary" type="button" onclick="cancelRoleEdit()">Cancel</button>
+                        <button class="btn btn-success" type="button" onclick="upateSelectedRole(1)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tasktab" class="container tab-pane fade">
+            <br>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-dark text-white">
+                        <td>Task Name</td>
+                        <td class="text-end"><button onclick="addNewRole()" class="btn btn-outline-light"><i class="fa fa-plus"></i></button></td>
+                    </tr>
+                </thead>
+                <tbody id="tasktablist">
+                </tbody>
+            </table>
+            <div class="mt-2 p-3" id="editTaskForm" style="display:none;">
+                <div class="row mt-2">
+                    <div class="col-sm-6">Task Name</div>
+                    <div class="col-sm-6"><input class="form-control" type="text" id="frmu-taskname" /></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-12 text-end">
+                        @*<button class="btn btn-danger" type="button" onclick="upateSelectedRole(100)">Dismiss</button>*@
+                        <button class="btn btn-primary" type="button" onclick="cancelTaskEdit()">Cancel</button>
+                        <button class="btn btn-success" type="button" onclick="upateSelectedTask(1)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="taskcapturetab" class="container tab-pane fade">
+            <br>
+            <div class="row mt-2">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Capture User Tasks
+                        </div>
+                        <div class="card-body border-bottom">
+                            <div class="row mt-2">
+                                <div class="col-sm-6">
+                                    Select Intern:
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="capte_User" onchange="populateDaylyTasks()">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-6">
+                                    Capture Date:
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="date" class="form-control" id="capte_Date" onchange="populateDaylyTasks()" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mt-2">
+                                <div class="col-sm-6">
+                                    Select Task:
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="capte_Task">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-6">
+                                    Hours Worked:
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="capte_Hours">
+                                        <option value="Please select.."></option>
+                                        @for (var i = 1; i <= 11; i++)
+                                        {
+                                            <option value="@i">@i Hours</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="row mt-2">
+                                <div class="col-sm-12 text-end">
+                                    <button class="btn btn-success" type="button" onclick="captureUserTask()">Capture</button>
+                                </div>
+                            </div>
+                            <div class="row mt-2" id="captureHours_div" style="display:none">
+                                <div class="col-sm-12 text-end">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <i class="fa fa-exclamation-circle ms-e"></i>
+                                        <div id="captureHours_error" class="ms-5">  
+                                            some content
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Task</td>
+                                <td>Role</td>
+                                <td>Rate</td>
+                                <td>Hours</td>
+                            </tr>
+                        </thead>
+                        <tbody id="userDailyTasks">
+                            <tr><td colspan='4'>No Intern Selected</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

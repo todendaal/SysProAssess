@@ -1,0 +1,117 @@
+﻿@model RepportQuery
+@using SysProAssess.BLL.UserTask
+@using SysProAssess.BLL.UserLogic
+@using SysProAssess.MODELS
+
+
+
+@{
+    ViewData["Title"] = "Report Data";
+
+    UserTaskLogic _logic = new UserTaskLogic();
+    UserLogic _Userlogic = new UserLogic();
+
+
+    var startDate = DateTime.Now.AddDays(-10);
+    var endDate = DateTime.Now.AddDays(10);
+
+    try
+    {
+        startDate = (DateTime)Model.sdate;
+        endDate = (DateTime)Model.edate;
+    }
+    catch
+    {
+        //
+    }
+
+    List<User> _userlist = _Userlogic.GetAllUsers().Result;
+    List<UserTask> _list = _logic.GetAllUserTasks(startDate, endDate).Result;
+    List<UserTask> _listOrdered = _list.OrderBy(itm => itm.UserID).ToList();
+    _listOrdered = _listOrdered.OrderBy(itm => itm.TaskDate).ToList();
+
+    decimal UserTotal = 0;
+    decimal allTotal = 0;
+    int UserHours = 0;
+    int allHours = 0;
+    Guid currentUser = Guid.Empty;    
+}
+
+<div class="container mt-3">
+    @using (Html.BeginForm("ReportData", "Home", FormMethod.Post))
+    {
+    <div class="row">
+        <div class="col-2">Start Date</div>
+        <div class="col-3">
+           
+            @Html.EditorFor(model => model.sdate, "", new {  
+                htmlAttributes = new {  
+                    @class = "form-control"  
+                }  
+            })  
+
+        @Html.ValidationMessageFor(model => model.sdate, "", new {  
+                @class = "text-danger"  
+            }) 
+        </div>
+        <div class="col-2">End Date</div>
+        <div class="col-3">
+            @Html.EditorFor(model => model.edate, new {  
+                htmlAttributes = new {  
+                    @class = "form-control"  
+                }  
+            })  
+        @Html.ValidationMessageFor(model => model.edate, "", new {  
+                @class = "text-danger"  
+            }) 
+        </div>
+        <div class="col-2"><button class="btn btn-success" type="submit">Generate</button></div>
+        
+    </div>
+
+    }
+
+    
+
+
+    <table class="table table-border>">
+        @foreach (var itm in _listOrdered)
+        {
+            UserTotal += itm.TaskDuration * itm.HourlyRoleRate;
+            UserHours += itm.TaskDuration;
+            allTotal += itm.TaskDuration * itm.HourlyRoleRate;
+            allHours += itm.TaskDuration;
+
+            if (currentUser != itm.UserID)
+            {
+                currentUser = itm.UserID;
+                <tr class="border border-2 border-bottom border-top bg-secondary text-white">
+                    <td colspan="5" class="text-end"><b>R @UserTotal</b></td>
+                    <td>&nbsp;</td>
+                    <td><b>@UserHours Hours</b></td>
+                </tr>
+                UserTotal = 0;
+                UserHours = 0;
+            }
+            <tr>
+                <td>@_userlist.Single(itm1 => itm1.Id == itm.UserID).FirstName</td>
+                <td>@_userlist.Single(itm2 => itm2.Id == itm.UserID).LastName</td>
+                <td>@itm.TaskDate.ToString("dd-MM-yyy")</td>
+                <td>@itm.UserRoleName</td>
+                <td>R @itm.HourlyRoleRate / Hour</td>
+                <td>@itm.TaskName</td>
+                <td>@itm.TaskDuration Hours</td>
+            </tr>
+        }
+        <tr class="border border-2 border-bottom border-top bg-secondary text-white">
+            <td colspan="5" class="text-end"><b>R @UserTotal</b></td>
+            <td>&nbsp;</td>
+            <td><b>@UserHours Hours</b></td>
+        </tr>
+        <tr class="border border-2 border-bottom border-top bg-dark text-white">
+            <td colspan="5" class="text-end"><b>TOTAL: R @allTotal</b></td>
+            <td>&nbsp;</td>
+            <td><b>@allHours Hours</b></td>
+        </tr>
+    </table>
+</div>
