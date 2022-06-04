@@ -87,7 +87,7 @@ function brnClick(ActionID) {
         $(newPlace).addClass("smokePlace");
     }
     
-    $("#txtPath").html(fixtext);
+    fixText_F();
 
     $("#txtCurrentBox").val(currentBlockID);
     $("#txtCurrentDirection").val(CurrentDirection);
@@ -108,7 +108,7 @@ function fixText_F() {
     }
     $("#txtPath").html(fixtext);
     var counterofChars = fixtext.length;
-    $("#charcounter").html("nr Chars=" + counterofChars);
+    $("#charcounter").html("Chars=" + counterofChars);
 }
 
 if (startAction) {

@@ -4,8 +4,19 @@
 @{
     ViewData["Title"] = "Home Page";
 
+
+    List<User> _userlist = new List<User>();
+
     UserLogic _Userlogic = new UserLogic();
-    List<User> _userlist = _Userlogic.GetAllUsers().Result;
+    try
+    {
+        _userlist = _Userlogic.GetAllUsers().Result;
+    }
+    catch
+    {
+        //
+    }
+
     Guid DeletedStatusID = Guid.Parse("6c1c6d85-7413-4d8e-94a8-84a794b758c7");
 }
 
@@ -45,22 +56,28 @@
                     </tr>
                 </thead>
                 <tbody id="usertablist">
-                    @foreach(var itm in _userlist)
+                    @if (_userlist.Count != 0)
                     {
-                        var bgClass = "bg-light";
-                        @if (itm.StatusId == DeletedStatusID) { bgClass = "bg-danger text-white"; }
-                        <tr id='userrow-@itm.Id' class='trUsers @bgClass text-dark'>
-                        <td>@itm.FirstName</td>
-                        <td>@itm.LastName</td>
-                        <td>@itm.DateOfBirth</td>
-                        <td>@itm.IDNumber</td>
-                        <td>&nbsp;</td>
-                        @if (itm.StatusId != DeletedStatusID) {
-                            <td class='text-center'><button type='button' class='btn btn-sm btn-primary' onclick="setselectedUser('@itm.Id')"> <i class='fa fa-wrench'></i></button></td>
-                        }else {
-                            <td class='text-center'><button type='button' class='btn btn-sm btn-light'><i class='fa fa-ban'></i></button></td>
+                        @foreach (var itm in _userlist)
+                        {
+                            var bgClass = "bg-light";
+                            @if (itm.StatusId == DeletedStatusID) { bgClass = "bg-danger text-white"; }
+                            <tr id='userrow-@itm.Id' class='trUsers @bgClass text-dark'>
+                                <td>@itm.FirstName</td>
+                                <td>@itm.LastName</td>
+                                <td>@itm.DateOfBirth</td>
+                                <td>@itm.IDNumber</td>
+                                <td>&nbsp;</td>
+                                @if (itm.StatusId != DeletedStatusID)
+                                {
+                                    <td class='text-center'><button type='button' class='btn btn-sm btn-primary' onclick="setselectedUser('@itm.Id')"> <i class='fa fa-wrench'></i></button></td>
+                                }
+                                else
+                                {
+                                    <td class='text-center'><button type='button' class='btn btn-sm btn-light'><i class='fa fa-ban'></i></button></td>
+                                }
+                            </tr>
                         }
-                        </tr>
                     }
                 </tbody>
             </table>
@@ -212,7 +229,7 @@
                                 <div class="col-sm-12 text-end">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <i class="fa fa-exclamation-circle ms-e"></i>
-                                        <div id="captureHours_error" class="ms-5">  
+                                        <div id="captureHours_error" class="ms-5">
                                             some content
                                         </div>
                                     </div>

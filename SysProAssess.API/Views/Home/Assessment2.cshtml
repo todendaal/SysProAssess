@@ -15,36 +15,60 @@
 
 
 <div class="text-center">
-    <table class="p-0 m-0 border-0">
-        <tr class="m-0 p-0">
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(0)"><i>\</i></button></td>
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(1)"><i class="fa fa-arrow-up"></i></button></td>
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(2)"><i>/</i></button></td>
-        </tr>
-        <tr class="m-0 p-0">
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(3)"><i class="fa fa-arrow-left"></i></button></td>
-            <td><button id="btnSmoke" type="button" class="btn btn-primary" onclick="brnClick(4)"><i class="fas fa-wallet"></i></button></td>
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(5)"><i class="fa fa-arrow-right"></i></button></td>
-        </tr>
-        <tr class="m-0 p-0">
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(6)"><i>/</i></button></td>
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(7)"><i class="fa fa-arrow-down"></i></button></td>
-            <td><button type="button" class="btn btn-primary" onclick="brnClick(8)"><i>\</i></button></td>
-        </tr>
-    </table>
-    Box
-    <textarea id="txtPath" rows=4 cols=40>
+    <div class="row mt-1 border-top">
+        <div class="col-sm-3">
+            Path Actions
+            <table class="p-0 m-0 border-0">
+                <tr class="m-0 p-0">
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(0)"><i>\</i></button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(1)"><i class="fa fa-arrow-up"></i></button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(2)"><i>/</i></button></td>
+                </tr>
+                <tr class="m-0 p-0">
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(3)"><i class="fa fa-arrow-left"></i></button></td>
+                    <td><button id="btnSmoke" type="button" class="btn btn-primary" onclick="brnClick(4)"><i class="fa fa-paint-brush"></i></button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(5)"><i class="fa fa-arrow-right"></i></button></td>
+                </tr>
+                <tr class="m-0 p-0">
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(6)"><i>/</i></button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(7)"><i class="fa fa-arrow-down"></i></button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="brnClick(8)"><i>\</i></button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-9">
+            <div class="row mt-1 border-top">
+                <div class="col-sm-2">Path Actions<br><button type="button" class="btn btn-primary" onclick="fixText_F()">Fix</button></div>
+                <div class="col-sm-10">
+                    <textarea id="txtPath" rows=3 cols=40>
 
-    </textarea><button type="button" class="btn btn-primary" onclick="fixText_F()">Fix</button>
-    <br />
-    <span id="charcounter"></span>
-    <br />
-    Box<input type="text" id="txtCurrentBox" value="11" /><br />
-    Dir<input type="text" id="txtCurrentDirection" value="90" />
+                    </textarea>
+                </div>
+            </div>
+            <div class="row mt-1 border-top">
+                <div class="col-sm-2">Char Count</div>
+                <div class="col-sm-10">
+                    <span id="charcounter"></span>
+                </div>
+            </div>
+            <div class="row mt-1 border-top">
+                <div class="col-sm-2">Current Box</div>
+                <div class="col-sm-10">
+                    <input type="text" id="txtCurrentBox" value="11" /><br />
+                </div>
+            </div>
+            <div class="row mt-1 border-top">
+                <div class="col-sm-2">Direction</div>
+                <div class="col-sm-10">
+                    <input type="text" id="txtCurrentDirection" value="90" />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
-<div class="text-center">
+<div class="text-center mt-2">
     <table class="table-bordered border-1 border-dark" style="background-color:transparent;">
         @for (var iline = 1; iline <= 90; iline=iline+3)
         {
