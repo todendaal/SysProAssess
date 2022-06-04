@@ -92,7 +92,7 @@ function getAllStatus() {
 }
 
 function getAllUsers() {
-    var ApiStr = 'api/users/allusers';
+    var ApiStr = '/api/users/allusers';
     $.getJSON(ApiStr, function (json) {
         for (var key in json) {
             var value = json[key];
