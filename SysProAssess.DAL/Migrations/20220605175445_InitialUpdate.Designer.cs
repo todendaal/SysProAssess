@@ -12,7 +12,7 @@ using SysProAssess.DAL.DataConfig;
 namespace SysProAssess.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220604063113_InitialUpdate")]
+    [Migration("20220605175445_InitialUpdate")]
     partial class InitialUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

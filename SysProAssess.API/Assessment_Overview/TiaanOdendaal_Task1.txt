@@ -1,0 +1,6 @@
+; Tiaan Odendaal
+;
+; Letter S
+; 89 chars
+F1,ON,F3,180,F1,90L,F4,45R,F1,90R,F1,OFF
+; End of Task

@@ -16,6 +16,10 @@ namespace SysProAssess.DAL.Functions
         {
             //Validate USER
 
+            //set the status to new user. With more logic this will be better to do dynamically but for now 
+            newUser.StatusId = Guid.Parse("93E302D9-D8E9-4934-ADC1-A3C640762148");
+
+
             using (var context = new DatabaseContext(DatabaseContext.ops.dbOptions))
             {
                 await context.Users.AddAsync(newUser);
@@ -24,6 +28,10 @@ namespace SysProAssess.DAL.Functions
             return newUser;
         }
 
+        /// <summary>
+        /// Get All the users 
+        /// </summary>
+        /// <returns>List<User></returns>
         public async Task<List<User>> GetAllUsers()
         {
             List<User> userList = new List<User>();
@@ -34,6 +42,11 @@ namespace SysProAssess.DAL.Functions
             return userList;
         }
 
+        /// <summary>
+        /// Get a specific user by ID
+        /// </summary>
+        /// <param name="UID"></param>
+        /// <returns>Return the correct user model</returns>
         public async Task<User> GetUser(Guid UID)
         {
             User userSelected = new User();
@@ -44,6 +57,11 @@ namespace SysProAssess.DAL.Functions
             return userSelected;
         }
 
+        /// <summary>
+        /// Get a specific user by specific User Model. I use this as I inkect some models from the javascript
+        /// </summary>
+        /// <param name="editUser"></param>
+        /// <returns>Return the correct complete user model</returns>
         public async Task<User> GetUser(User editUser)
         {
             User userSelected = new User();
@@ -54,6 +72,11 @@ namespace SysProAssess.DAL.Functions
             return userSelected;
         }
 
+        /// <summary>
+        /// Update the User data
+        /// </summary>
+        /// <param name="editUser"></param>
+        /// <returns>Return the correct complete user model</returns>
         public async Task<User> UpdatetUser(User editUser)
         {
             //validate USER
@@ -70,6 +93,11 @@ namespace SysProAssess.DAL.Functions
             return editUser;
         }
 
+        /// <summary>
+        /// This is used to dismiss a user
+        /// </summary>
+        /// <param name="editUser"></param>
+        /// <returns></returns>
         public async Task<User> DismissUser(User editUser)
         {
             //validate USER

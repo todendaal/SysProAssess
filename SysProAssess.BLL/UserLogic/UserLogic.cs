@@ -15,7 +15,11 @@ namespace SysProAssess.BLL.UserLogic
         private IUserStatus _userstatus = new SysProAssess.DAL.Functions.UserStatusFunction();
 
 
-
+        /// <summary>
+        /// Adds a new user to the User table and list
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns></returns>
         public async Task<Boolean> AddUser(User newUser)
         {
             try
@@ -28,7 +32,7 @@ namespace SysProAssess.BLL.UserLogic
 
                 if (newUser.RoleID != Guid.Empty)
                 {
-                    newUser.RoleName = allroles.Where(itm => itm.Id== newUser.RoleID).FirstOrDefault().RoleName;
+                    newUser.RoleName = allroles.Where(itm => itm.Id == newUser.RoleID).FirstOrDefault().RoleName;
                 }
 
                 if (newUser.StatusId != Guid.Empty)
@@ -60,7 +64,7 @@ namespace SysProAssess.BLL.UserLogic
                 var result = await _user.UpdatetUser(newUser);
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -80,6 +84,11 @@ namespace SysProAssess.BLL.UserLogic
             }
         }
 
+        /// <summary>
+        /// Set user status to dismissed using a model lookup
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns></returns>
         public async Task<Boolean> DismissUser(User newUser)
         {
             try
@@ -99,7 +108,11 @@ namespace SysProAssess.BLL.UserLogic
             }
         }
 
-            public async Task<List<User>> GetAllUsers()
+        /// <summary>
+        /// Return all the users in the db. Also puplates the database with dummy users should it be empty
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<User>> GetAllUsers()
         {
             List<User> _users = await _user.GetAllUsers();
             if (_users.Count == 0)

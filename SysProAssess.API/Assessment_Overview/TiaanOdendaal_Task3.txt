@@ -1,0 +1,12 @@
+; Tiaan Odendaal
+;
+; Face - tried SA Flag but just over 100 chars - Best I could do ON,F9,90R,F6,90R,F9,90R,F6,90R,F1,45R,F2,45L,F6,90R,F2,90R,F6,45L,F2,45R,F1,90R,F2,45R,F1,90L,F1
+;So here is Face - 99Chars
+; 
+ON,F10,90R,F9,90R,F8,F2,90R,F9,180,F3,90L,F4,OFF,F2,ON,F3,90R,OFF,F3,90R,F1,ON,45L,F1,45R,F4,45R,F1
+; End of Task
+
+
+
+
+

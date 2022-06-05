@@ -39,9 +39,9 @@ namespace SysProAssess.BLL.UserStatus
 
             if(_status.Count==0)
             {
-                MODELS.UserStatus itm1 = new MODELS.UserStatus { Id = Guid.NewGuid(), Name = "New", OrderID = 1 };
+                MODELS.UserStatus itm1 = new MODELS.UserStatus { Id = Guid.Parse("93E302D9-D8E9-4934-ADC1-A3C640762148"), Name = "New", OrderID = 1 };
                 await _function.AddStatus(itm1);
-                MODELS.UserStatus itm2 = new MODELS.UserStatus { Id = Guid.NewGuid(), Name = "Resigned", OrderID = 100 };
+                MODELS.UserStatus itm2 = new MODELS.UserStatus { Id = Guid.Parse("6c1c6d85-7413-4d8e-94a8-84a794b758c7"), Name = "Resigned", OrderID = 100 };
                 await _function.AddStatus(itm2);
             }
             return _status;

@@ -7,10 +7,15 @@
 
 
 <style>
-    .currentPlace {background-color:yellow}
+    .currentPlace {background-color:yellow; border-width:2px;}
     .nosmokePlace {background-color:transparent}
-    .smokePlace {background-color:gray}
+    .smokePlace {background-color:gray;}
     .stanBox {width:30px; height:30px;}
+    .smokePlace.currentPlace {background-color:orange;border-width:2px;}
+    .testPlace {background-color:red;}
+    .testPlace.currentPlace {background-color:orange;border-width:2px;}
+    .testPlace.currentPlace.currentPlace {background-color:orange;border-width:2px;}
+    .testPlace.smokePlace {background-color:gray;}
 </style>
 
 
@@ -38,7 +43,11 @@
         </div>
         <div class="col-sm-9">
             <div class="row mt-1 border-top">
-                <div class="col-sm-2">Path Actions<br><button type="button" class="btn btn-primary" onclick="fixText_F()">Fix</button></div>
+                <div class="col-sm-2">
+                    Path Actions<br>
+                    <button type="button" class="btn btn-primary" onclick="fixText_F()">Fix</button><br>
+                    <img id="imgDirection" src="/Images/arr90.png" style="height:40px;" />
+                </div>
                 <div class="col-sm-10">
                     <textarea id="txtPath" rows=3 cols=40>
 
@@ -58,18 +67,21 @@
                 </div>
             </div>
             <div class="row mt-1 border-top">
+                <div class="col-sm-12"><button type="button" class="btn btn-primary" onclick="startAgain()">Relook</button><br></div>
+            </div>
+            @*<div class="row mt-1 border-top">
                 <div class="col-sm-2">Direction</div>
                 <div class="col-sm-10">
                     <input type="text" id="txtCurrentDirection" value="90" />
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
 
 
 <div class="text-center mt-2">
-    <table class="table-bordered border-1 border-dark" style="background-color:transparent;">
+    <table id="tableBlocks" class="table-bordered border-1 border-dark" style="background-color:transparent;">
         @for (var iline = 1; iline <= 90; iline=iline+3)
         {
             <tr  class="">
@@ -79,11 +91,11 @@
                     var itemID = "b_" +  itemNr.ToString();
                     if(itemNr==11)
                     {
-                        <td class="stanBox currentPlace border-1 border-top border-start m-0 p-0 border-dark" style="font-size:9px;" id="@itemID">&nbsp;@itemNr</td>
+                        <td onclick="colorClick('@itemID')" class="stanBox currentPlace border-1 border-top border-start m-0 p-0 border-dark" style="font-size:9px;" id="@itemID">&nbsp;@itemNr</td>
                     }
                     else
                     {
-                        <td class="stanBox border-1 border-top border-start m-0 p-0 border-dark" style="font-size:9px;" id="@itemID">&nbsp;@itemNr</td>
+                        <td onclick="colorClick('@itemID')" class="stanBox border-1 border-top border-start m-0 p-0 border-dark" style="font-size:9px;" id="@itemID">&nbsp;@itemNr</td>
                     }
                     
             }

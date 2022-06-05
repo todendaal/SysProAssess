@@ -12,6 +12,11 @@ namespace SysProAssess.BLL.Tasks
     {
         private ITasks _function = new SysProAssess.DAL.Functions.TaskFunctions();
 
+        /// <summary>
+        /// Add a new Work Task
+        /// </summary>
+        /// <param name="newWorkTask"></param>
+        /// <returns></returns>
         public async Task<Boolean> AddWorkTask(WorkTask newWorkTask)
         {
             try
@@ -33,6 +38,10 @@ namespace SysProAssess.BLL.Tasks
             }
         }
 
+        /// <summary>
+        /// Get every work task in database. Also populates database with items if enpty
+        /// </summary>
+        /// <returns>List<WorkTask></returns>
         public async Task<List<WorkTask>> GetAllWorkTasks()
         {
             List<WorkTask> _WorkTasks = await _function.GetAllTasks();
@@ -54,15 +63,15 @@ namespace SysProAssess.BLL.Tasks
 
         public async Task<Boolean> UpdateWorkTask(WorkTask newItem)
         {
-            //try
-            //{
+            try
+            {
             var result = await _function.UpdateTask(newItem);
             return true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    return false;
-            //}
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
